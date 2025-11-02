@@ -15,38 +15,38 @@
   <main>
     <section class="canvas-wrap">
       <canvas id="pfp" width="500" height="500"></canvas>
-      <p class="hint">편집 중에는 원 바깥도 보입니다. 다운로드 시 자동으로 동그랗게 잘려요.</p>
+      <p class="hint">편집 중에는 원 바깥도 보입니다. 다운로드 시 자동으로 동그랗게 잘려요. (During edit, outside the circle is visible. It will crop to a circle on download.)</p>
     </section>
 
     <section class="panel">
       <div class="row">
-        <label class="btn muted">프레임: 고정 (ring.png)</label>
+        <label class="btn muted">프레임: 고정 (Fixed Frame: ring.png)</label>
         <label class="btn">
-          콘텐츠 이미지 추가
+          콘텐츠 이미지 추가 (Add Images)
           <input id="imgInput" type="file" accept="image/png,image/jpeg" multiple hidden />
         </label>
       </div>
 
       <div class="row">
-        <button id="deleteBtn" class="btn outline" disabled>선택 삭제</button>
-        <button id="resetBtn" class="btn secondary">콘텐츠 초기화</button>
+        <button id="deleteBtn" class="btn outline" disabled>선택 삭제 (Delete Selected)</button>
+        <button id="resetBtn" class="btn secondary">콘텐츠 초기화 (Reset)</button>
       </div>
 
       <div class="row">
-        <button id="downloadBtn" class="btn primary grow">PNG 다운로드 (500×500)</button>
+        <button id="downloadBtn" class="btn primary grow">PNG 다운로드 (Download PNG · 500×500)</button>
       </div>
 
       <details class="note">
-        <summary>주의사항</summary>
+        <summary>주의사항 (Notes)</summary>
         <ul>
-          <li><b>ring.png</b> 파일을 이 페이지와 같은 폴더에 두면 프레임이 고정으로 적용됩니다.</li>
-          <li>다운로드 시 중심(250,250), 반지름 240으로 원형 클립을 적용합니다.</li>
+          <li><b>ring.png</b> 파일을 이 페이지와 같은 폴더에 두면 프레임이 고정으로 적용됩니다. (Put <b>ring.png</b> next to this page to lock the frame.)</li>
+          <li>다운로드 시 중심(250,250), 반지름 240으로 원형 클립을 적용합니다. (On export, it clips to a circle with center 250,250 and radius 240.)</li>
         </ul>
       </details>
 
       <div class="creator">
         <a class="btn link" href="https://x.com/wshowshow" target="_blank" rel="noopener noreferrer">
-          제작자 링크 (X: @wshowshow)
+          제작자 링크 (X Profile)
         </a>
       </div>
     </section>
