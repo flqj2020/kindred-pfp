@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kindred-style PFP Builder — Made by showshow(@wshowshow)</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- fabric.js CDN -->
+  <script src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Kindred-style PFP Builder — <span class="sub">Made by showshow(@wshowshow)</span></h1>
+  </header>
+
+  <main>
+    <section class="canvas-wrap">
+      <canvas id="pfp" width="500" height="500"></canvas>
+      <p class="hint">Tip: 이미지를 눌러 이동/리사이즈, 두 손가락으로 확대/축소(모바일).</p>
+    </section>
+
+    <section class="panel">
+      <div class="row">
+        <label class="btn">
+          프레임(PNG) 업로드
+          <input id="frameInput" type="file" accept="image/png" hidden />
+        </label>
+        <label class="btn">
+          콘텐츠 이미지 추가
+          <input id="imgInput" type="file" accept="image/png,image/jpeg" multiple hidden />
+        </label>
+      </div>
+
+      <div class="row">
+        <button id="deleteBtn" class="btn outline" disabled>선택 삭제</button>
+        <button id="resetBtn" class="btn secondary">콘텐츠 초기화</button>
+      </div>
+
+      <div class="row">
+        <button id="downloadBtn" class="btn primary grow">PNG 다운로드 (500×500)</button>
+      </div>
+
+      <details class="note">
+        <summary>주의사항</summary>
+        <ul>
+          <li>프레임 PNG의 안쪽/바깥 배경은 <strong>투명(알파)</strong>이어야 해요.</li>
+          <li>업로드한 이미지들은 원형 마스크 밖으로 보이지 않아요.</li>
+        </ul>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <small>© showshow (@wshowshow)</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
