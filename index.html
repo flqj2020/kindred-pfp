@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kindred-style PFP Builder — Made by showshow(@wshowshow)</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- fabric.js CDN -->
   <script src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
 </head>
 <body>
@@ -21,10 +20,7 @@
 
     <section class="panel">
       <div class="row">
-        <label class="btn">
-          프레임(PNG) 업로드
-          <input id="frameInput" type="file" accept="image/png" hidden />
-        </label>
+        <label class="btn muted" title="프레임은 고정됨">프레임: 고정 (ring.png)</label>
         <label class="btn">
           콘텐츠 이미지 추가
           <input id="imgInput" type="file" accept="image/png,image/jpeg" multiple hidden />
@@ -43,8 +39,8 @@
       <details class="note">
         <summary>주의사항</summary>
         <ul>
-          <li>프레임 PNG의 안쪽/바깥 배경은 <strong>투명(알파)</strong>이어야 해요.</li>
-          <li>업로드한 이미지들은 원형 마스크 밖으로 보이지 않아요.</li>
+          <li><b>ring.png</b> 파일은 이 페이지와 같은 폴더에 두면 자동으로 프레임으로 적용됩니다.</li>
+          <li>업로드한 콘텐츠 이미지는 원형 마스크 밖으로 보이지 않아요.</li>
         </ul>
       </details>
     </section>

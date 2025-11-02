@@ -1,46 +1,42 @@
 
-// Fabric.js setup
+// Fixed-frame version: automatically loads 'ring.png' (500x500 recommended) and locks it.
 const canvas = new fabric.Canvas('pfp', {
   backgroundColor: 'transparent',
   selection: true,
   preserveObjectStacking: true,
 });
 
-let contentGroup = null;     // group with circular clip
-let frameImg = null;         // overlay frame
+let contentGroup = null;
+let frameImg = null;
 
 function setup() {
-  // circular clip path (radius 240 at center 250,250)
   const clip = new fabric.Circle({ left: 10, top: 10, radius: 240, absolutePositioned: true });
-  contentGroup = new fabric.Group([], {
-    clipPath: clip,
-    selectable: false,
-    evented: false,
-    name: 'CONTENT_GROUP',
-  });
+  contentGroup = new fabric.Group([], { clipPath: clip, selectable: false, evented: false, name: 'CONTENT_GROUP' });
   canvas.add(contentGroup);
 
-  // selection UI
-  canvas.on('selection:created', e => {
-    const t = e.selected?.[0];
-    document.getElementById('deleteBtn').disabled = !t;
-  });
-  canvas.on('selection:updated', e => {
-    const t = e.selected?.[0];
-    document.getElementById('deleteBtn').disabled = !t;
-  });
-  canvas.on('selection:cleared', () => {
-    document.getElementById('deleteBtn').disabled = true;
-  });
+  // preload fixed frame image
+  fabric.Image.fromURL('ring.png', img => {
+    img.set({ left: 0, top: 0, selectable: false, evented: false, name: 'RING_FRAME', objectCaching: false });
+    img.scaleToWidth(500);
+    img.set({ left: (500 - img.getScaledWidth())/2, top: (500 - img.getScaledHeight())/2 });
+    frameImg = img;
+    canvas.add(img);
+    canvas.bringToFront(img);
+    canvas.renderAll();
+  }, { crossOrigin: 'anonymous' });
 
-  // keep frame on top
+  // selection UI
+  const delBtn = document.getElementById('deleteBtn');
+  canvas.on('selection:created', e => { delBtn.disabled = !(e.selected?.[0]); });
+  canvas.on('selection:updated', e => { delBtn.disabled = !(e.selected?.[0]); });
+  canvas.on('selection:cleared', () => { delBtn.disabled = true; });
+
   const bringUp = () => { if (frameImg) { canvas.bringToFront(frameImg); canvas.renderAll(); } };
   canvas.on('object:added', bringUp);
   canvas.on('object:modified', bringUp);
 }
 setup();
 
-// Helpers
 function addImageToGroup(url) {
   return new Promise(resolve => {
     fabric.Image.fromURL(url, img => {
@@ -60,36 +56,13 @@ function addImageToGroup(url) {
   });
 }
 
-// Frame upload
-document.getElementById('frameInput').addEventListener('change', async (e) => {
-  const file = e.target.files?.[0];
-  if (!file) return;
-  const url = URL.createObjectURL(file);
-  fabric.Image.fromURL(url, img => {
-    img.set({
-      left: 0, top: 0,
-      selectable: false, evented: false,
-      name: 'RING_FRAME', objectCaching: false,
-    });
-    img.scaleToWidth(500);
-    if (frameImg) canvas.remove(frameImg);
-    frameImg = img;
-    canvas.add(img);
-    canvas.bringToFront(img);
-    canvas.renderAll();
-  }, { crossOrigin: 'anonymous' });
-});
-
-// Content upload
-document.getElementById('imgInput').addEventListener('change', async (e) => {
+document.getElementById('imgInput').addEventListener('change', async e => {
   const files = Array.from(e.target.files || []);
   for (const f of files) {
-    const url = URL.createObjectURL(f);
-    await addImageToGroup(url);
+    await addImageToGroup(URL.createObjectURL(f));
   }
 });
 
-// Delete selected
 document.getElementById('deleteBtn').addEventListener('click', () => {
   const act = canvas.getActiveObject();
   if (act && contentGroup.contains(act)) {
@@ -100,7 +73,6 @@ document.getElementById('deleteBtn').addEventListener('click', () => {
   }
 });
 
-// Reset content
 document.getElementById('resetBtn').addEventListener('click', () => {
   const items = contentGroup._objects.slice();
   items.forEach(o => contentGroup.remove(o));
@@ -109,7 +81,6 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   document.getElementById('deleteBtn').disabled = true;
 });
 
-// Download
 document.getElementById('downloadBtn').addEventListener('click', () => {
   if (frameImg) canvas.bringToFront(frameImg);
   const dataURL = canvas.toDataURL({ format: 'png', multiplier: 1 });
