@@ -15,12 +15,12 @@
   <main>
     <section class="canvas-wrap">
       <canvas id="pfp" width="500" height="500"></canvas>
-      <p class="hint">Tip: 이미지를 눌러 이동/리사이즈, 두 손가락으로 확대/축소(모바일).</p>
+      <p class="hint">편집 중에는 원 바깥도 보입니다. 다운로드 시 자동으로 동그랗게 잘려요.</p>
     </section>
 
     <section class="panel">
       <div class="row">
-        <label class="btn muted" title="프레임은 고정됨">프레임: 고정 (ring.png)</label>
+        <label class="btn muted">프레임: 고정 (ring.png)</label>
         <label class="btn">
           콘텐츠 이미지 추가
           <input id="imgInput" type="file" accept="image/png,image/jpeg" multiple hidden />
@@ -39,16 +39,20 @@
       <details class="note">
         <summary>주의사항</summary>
         <ul>
-          <li><b>ring.png</b> 파일은 이 페이지와 같은 폴더에 두면 자동으로 프레임으로 적용됩니다.</li>
-          <li>업로드한 콘텐츠 이미지는 원형 마스크 밖으로 보이지 않아요.</li>
+          <li><b>ring.png</b> 파일을 이 페이지와 같은 폴더에 두면 프레임이 고정으로 적용됩니다.</li>
+          <li>다운로드 시 중심(250,250), 반지름 240으로 원형 클립을 적용합니다.</li>
         </ul>
       </details>
+
+      <div class="creator">
+        <a class="btn link" href="https://x.com/wshowshow" target="_blank" rel="noopener noreferrer">
+          제작자 링크 (X: @wshowshow)
+        </a>
+      </div>
     </section>
   </main>
 
-  <footer>
-    <small>© showshow (@wshowshow)</small>
-  </footer>
+  <footer><small>© showshow (@wshowshow)</small></footer>
 
   <script src="app.js"></script>
 </body>
