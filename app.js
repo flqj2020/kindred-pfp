@@ -1,8 +1,11 @@
 
-// Option B: Edit shows full images; export crops to circle and includes fixed ring.png on top.
+// Option B + cover fit: Edit shows full images; export crops to circle and includes fixed ring.png on top.
+// Upload automatically scales image to fully cover the circle (diameter 480) and centers it.
 const CANVAS_SIZE = 500;
 const CENTER = 250;
 const RADIUS = 240;
+const DIAM = RADIUS * 2;
+const BLEED = 1.02; // tiny oversize to avoid edge seams
 
 const canvas = new fabric.Canvas('pfp', {
   backgroundColor: 'transparent',
@@ -58,19 +61,29 @@ function setup() {
 }
 setup();
 
+function coverFit(obj) {
+  if (!obj.width || !obj.height) return;
+  const sx = DIAM / obj.width;
+  const sy = DIAM / obj.height;
+  const scale = Math.max(sx, sy) * BLEED;
+  obj.set({ originX: 'center', originY: 'center', left: CENTER, top: CENTER });
+  obj.scale(scale);
+}
+
+// Upload handler with cover-fit
 function addImageToGroup(url) {
   return new Promise(resolve => {
     fabric.Image.fromURL(url, img => {
       img.set({
-        left: 0,
-        top: 0,
+        left: CENTER,
+        top: CENTER,
         originX: 'center',
         originY: 'center',
         cornerColor: '#7c3aed',
         transparentCorners: false,
         borderColor: '#7c3aed',
       });
-      img.scaleToWidth(350); // sensible default size for PFP
+      coverFit(img);
       contentGroup.addWithUpdate(img);
       canvas.setActiveObject(img);
       canvas.renderAll();
@@ -79,13 +92,20 @@ function addImageToGroup(url) {
   });
 }
 
-// Upload handler
 document.getElementById('imgInput').addEventListener('change', async e => {
   const files = Array.from(e.target.files || []);
   for (const f of files) { await addImageToGroup(URL.createObjectURL(f)); }
 });
 
-// Delete selected (only inside contentGroup)
+// Fit button: re-fit selected to circle
+document.getElementById('fitBtn').addEventListener('click', () => {
+  const act = canvas.getActiveObject();
+  if (!act || !contentGroup.contains(act)) return;
+  coverFit(act);
+  canvas.renderAll();
+});
+
+// Delete selected (only from contentGroup)
 document.getElementById('deleteBtn').addEventListener('click', () => {
   const act = canvas.getActiveObject();
   if (!act) return;
