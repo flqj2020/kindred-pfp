@@ -1,5 +1,5 @@
 
-// Option B + cover fit: Edit shows full images; export crops to circle and includes fixed ring.png on top.
+// Option B + cover fit (no manual fit button): Edit shows full images; export crops to circle with fixed ring.png on top.
 // Upload automatically scales image to fully cover the circle (diameter 480) and centers it.
 const CANVAS_SIZE = 500;
 const CENTER = 250;
@@ -95,14 +95,6 @@ function addImageToGroup(url) {
 document.getElementById('imgInput').addEventListener('change', async e => {
   const files = Array.from(e.target.files || []);
   for (const f of files) { await addImageToGroup(URL.createObjectURL(f)); }
-});
-
-// Fit button: re-fit selected to circle
-document.getElementById('fitBtn').addEventListener('click', () => {
-  const act = canvas.getActiveObject();
-  if (!act || !contentGroup.contains(act)) return;
-  coverFit(act);
-  canvas.renderAll();
 });
 
 // Delete selected (only from contentGroup)
